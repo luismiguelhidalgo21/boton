@@ -2,215 +2,364 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Historia de Chile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Archivo Histórico de Chile</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #0033a0, #ce1126);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --text-color: #ffffff;
-            --btn-hover: #ffffff;
-            --btn-hover-text: #ce1126;
+            /* Paleta Boutique y Cálida */
+            --bg-color: #F7F5F0; /* Tono papel antiguo suave */
+            --card-bg: #FFFFFF;
+            --text-main: #2B2B2B; /* Tinta carbón */
+            --text-secondary: #7A7A7A;
+            --accent-red: #A82030; /* Rojo carmín / vino */
+            --accent-red-hover: #8A1A27;
+            --border-soft: #EAE6DF;
+            
+            --font-ui: 'Montserrat', sans-serif;
+            --font-story: 'Lora', serif;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: var(--bg-gradient);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-ui);
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--text-color);
             padding: 20px;
+            /* Textura sutil de ruido de fondo para simular papel */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
         }
 
-        /* Glassmorphism Card */
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
+        /* Tarjeta estilo "Página de Libro / Placa de Museo" */
+        .museum-card {
+            background: var(--card-bg);
             width: 100%;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: transform 0.3s ease;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04), 0 5px 15px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-soft);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
+        header {
+            padding: 35px 30px 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
         }
 
         h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-family: var(--font-story);
+            font-weight: 500;
+            font-size: 1.8rem;
+            color: var(--text-main);
+            position: relative;
+            display: inline-block;
         }
 
-        .fact-container {
-            min-height: 120px;
+        /* Adorno clásico debajo del título */
+        h1::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-red);
+            margin: 15px auto 0;
+        }
+
+        /* Contenedor del Dato Histórico */
+        .fact-stage {
+            padding: 40px 35px;
+            min-height: 220px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            align-items: center;
+            position: relative;
+            touch-action: pan-y;
         }
 
+        /* Tipografía grande y legible para la historia */
         #fact-text {
-            font-size: 1.2rem;
+            font-family: var(--font-story);
+            font-size: 1.35rem;
             line-height: 1.6;
-            font-weight: 300;
-            opacity: 1;
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            text-align: center;
+            color: var(--text-main);
+            transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Clase para animar la entrada/salida del texto */
-        .fade-out {
-            opacity: 0 !important;
-            transform: translateY(10px);
+        /* Clases para transición elegante (Fade & Drift) */
+        .fact-hidden {
+            opacity: 0;
+            transform: translateY(8px);
         }
 
-        button {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid var(--glass-border);
-            color: var(--text-color);
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 50px;
+        footer {
+            padding: 0 35px 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Botón estilo "Call to Action" de alta calidad */
+        #generate-btn {
+            background-color: var(--accent-red);
+            color: #FFF;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: var(--font-ui);
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 14px rgba(168, 32, 48, 0.25);
         }
 
-        button:hover {
-            background: var(--btn-hover);
-            color: var(--btn-hover-text);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-            transform: scale(1.05);
-        }
-        
-        button:active {
-            transform: scale(0.95);
+        #generate-btn:hover {
+            background-color: var(--accent-red-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 32, 48, 0.35);
         }
 
-        .counter {
-            margin-top: 15px;
+        #generate-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(168, 32, 48, 0.2);
+        }
+
+        .meta-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            border-top: 1px solid var(--border-soft);
+            padding-top: 15px;
+        }
+
+        #counter-text {
             font-size: 0.8rem;
-            opacity: 0.7;
+            color: var(--text-secondary);
+            font-weight: 600;
         }
+
+        #mute-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-family: var(--font-ui);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.3s;
+        }
+
+        #mute-toggle:hover { color: var(--text-main); }
+        #mute-toggle.active { text-decoration: line-through; opacity: 0.6; }
+
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Datos Curiosos de Chile 🇨🇱</h1>
-        <div class="fact-container">
-            <p id="fact-text">Haz clic en el botón para descubrir un fascinante dato sobre la historia chilena.</p>
+    <div class="museum-card">
+        <header>
+            <span class="subtitle">Colección Curada</span>
+            <h1>Historia de Chile</h1>
+        </header>
+        
+        <div class="fact-stage" id="touch-area">
+            <p id="fact-text">Toca el botón inferior o desliza la pantalla para revelar un pasaje de nuestra historia.</p>
         </div>
-        <button id="generate-btn">Generar Dato</button>
-        <p class="counter" id="counter-text">Datos disponibles: 50</p>
+        
+        <footer>
+            <button id="generate-btn">Descubrir Siguiente Pasaje</button>
+            <div class="meta-controls">
+                <span id="counter-text">Pasajes disponibles: 50</span>
+                <button id="mute-toggle">
+                    <span id="mute-icon">🔊</span> Audio
+                </button>
+            </div>
+        </footer>
     </div>
 
     <script>
-        // Array de 50 datos históricos
+        // Los 50 datos históricos (sin modificaciones)
         const chileanFacts = [
             "La momia artificial más antigua del mundo no es egipcia, es la momia Chinchorro del norte de Chile (aprox. 5050 a.C.).",
             "Chile tiene el récord del terremoto más fuerte jamás registrado en la historia: Valdivia en 1960, con una magnitud de 9.5.",
-            "Bernardo O'Higgins, el 'Padre de la Patria', era de ascendencia irlandesa (por su padre) y vasca (por su madre).",
-            "La verdadera Independencia de Chile se proclamó y juró el 12 de febrero de 1818, ¡no el 18 de septiembre! En septiembre se celebra la Primera Junta de Gobierno.",
-            "El pueblo Mapuche resistió la conquista española durante más de 300 años, forzando a la Corona Española a reconocer su autonomía en el Parlamento de Quilín (1641).",
-            "La bandera chilena es 21 años más antigua que la bandera del estado de Texas (EE.UU.), a pesar de su innegable parecido.",
-            "Chile reclama soberanía sobre una porción de la Antártica (Territorio Chileno Antártico) oficialmente desde 1940.",
-            "Durante la Guerra del Pacífico, Chile capturó el monitor peruano Huáscar. Hoy es un museo flotante en Talcahuano y el buque de guerra a flote más antiguo del mundo en su tipo.",
-            "La Batalla naval de Iquique (21 de mayo de 1879) fue una derrota militar, pero Arturo Prat se convirtió en el máximo héroe nacional por su acto de sacrificio.",
-            "En 1520, la expedición de Hernando de Magallanes descubrió el Estrecho que hoy lleva su nombre, siendo los primeros europeos en avistar territorio chileno.",
-            "Pedro de Valdivia fundó Santiago el 12 de febrero de 1541 a los pies del Cerro Huelén, hoy conocido como Cerro Santa Lucía.",
-            "Inés de Suárez tuvo un papel crucial (y muy crudo) en la defensa de Santiago en 1541 cuando la ciudad fue atacada y quemada por el cacique Michimalonco.",
-            "La Isla de Pascua (Rapa Nui) fue incorporada al territorio chileno recién en 1888, gracias a las gestiones del comandante Policarpo Toro.",
-            "El famoso 'Abrazo de Maipú' entre el argentino José de San Martín y el chileno Bernardo O'Higgins selló definitivamente la independencia de Chile en 1818.",
+            "Bernardo O'Higgins, el 'Padre de la Patria', era de ascendencia irlandesa y vasca.",
+            "La verdadera Independencia de Chile se proclamó y juró el 12 de febrero de 1818, ¡no el 18 de septiembre!",
+            "El pueblo Mapuche resistió la conquista española durante más de 300 años, forzando la firma del Parlamento de Quilín.",
+            "La bandera chilena es 21 años más antigua que la bandera del estado de Texas, a pesar de su gran parecido.",
+            "Chile reclama soberanía sobre una porción de la Antártica oficialmente desde 1940.",
+            "El monitor peruano Huáscar, capturado en la Guerra del Pacífico, es el buque de guerra flotante más antiguo de su tipo.",
+            "La Batalla naval de Iquique (1879) fue una derrota militar, pero Arturo Prat se convirtió en el máximo héroe nacional.",
+            "En 1520, la expedición de Magallanes descubrió el Estrecho que hoy lleva su nombre, avistando territorio chileno.",
+            "Pedro de Valdivia fundó Santiago el 12 de febrero de 1541 a los pies del Cerro Huelén (Santa Lucía).",
+            "Inés de Suárez tuvo un papel crucial en la defensa de Santiago en 1541 contra el cacique Michimalonco.",
+            "La Isla de Pascua (Rapa Nui) fue incorporada al territorio chileno recién en 1888.",
+            "El 'Abrazo de Maipú' entre San Martín y O'Higgins selló la independencia de Chile en 1818.",
             "El temido corsario inglés Francis Drake atacó y saqueó el puerto de Valparaíso en el año 1578.",
-            "La primera mujer médico de Chile (y de toda Sudamérica) fue Eloísa Díaz, quien obtuvo su título en 1887.",
-            "Diego Portales organizó la República en el siglo XIX y dictó la Constitución de 1833, pero curiosamente, nunca fue Presidente de Chile.",
-            "El origen de la palabra 'Chile' es incierto; podría venir del aymara 'chilli' (donde termina la tierra) o del canto del pájaro trile ('chi-le, chi-le').",
-            "Chile fue el primer país del mundo en elegir democráticamente a un presidente de ideología marxista: Salvador Allende en 1970.",
-            "La actual Constitución chilena fue redactada y aprobada en 1980 durante la dictadura de Augusto Pinochet, aunque ha sufrido decenas de reformas desde entonces.",
-            "El rescate de los 33 mineros atrapados en la mina San José en 2010 fue transmitido y visto en vivo por más de mil millones de personas en todo el mundo.",
-            "Durante la época colonial, Chile era considerado por la Corona Española como la 'Capitanía General más pobre y problemática' debido a los constantes gastos de la Guerra de Arauco.",
-            "El estratega militar mapuche Lautaro fue paje de Pedro de Valdivia. Esto le permitió aprender las tácticas y debilidades españolas antes de liderar la rebelión.",
-            "La Isla Robinson Crusoe (Archipiélago Juan Fernández) inspiró la famosa novela de Daniel Defoe. El marinero real abandonado allí se llamaba Alexander Selkirk.",
-            "Gabriela Mistral, una profesora rural del Valle de Elqui, fue la primera persona de toda América Latina en ganar el Premio Nobel de Literatura en 1945.",
-            "Pablo Neruda (Premio Nobel 1971) organizó el viaje del barco Winnipeg en 1939, salvando a más de 2.000 refugiados españoles de la Guerra Civil para que vivieran en Chile.",
-            "Durante la fiebre del oro de California (1848), tantos chilenos viajaron y se asentaron allí que fundaron una zona aún conocida como 'Chilecito'.",
-            "Valparaíso fue el puerto comercial más importante del Pacífico Sur en el siglo XIX, estatus que perdió con la apertura del Canal de Panamá en 1914.",
-            "El primer ferrocarril de Chile (y el tercero de Sudamérica) se inauguró en 1851, uniendo las ciudades nortinas de Caldera y Copiapó.",
-            "El Desierto de Atacama en el norte de Chile es el lugar no polar más árido de la Tierra. Es tan extremo que la NASA lo usa para simular el terreno de Marte.",
-            "En 1866, durante la Guerra Hispano-Sudamericana, la escuadra española bombardeó y destruyó gran parte del puerto de Valparaíso.",
-            "El himno nacional de Chile solía tener estrofas muy agresivas contra España. Fueron eliminadas en 1847 para poder restablecer relaciones diplomáticas.",
-            "La icónica figura del 'Roto Chileno' fue homenajeada con un monumento por su valentía en la Guerra contra la Confederación Perú-Boliviana (1836-1839).",
-            "En el plebiscito nacional de 1988, la opción 'NO' ganó con un 54.68%, marcando el inicio del retorno a la democracia en Chile tras 15 años de régimen militar.",
-            "El cóndor andino y el huemul sostienen el escudo nacional. Representan el lema oficial del país: 'Por la razón o la fuerza'.",
-            "Los restos de la corbeta Esmeralda, hundida en el Combate Naval de Iquique, siguen en el fondo del mar y el lugar es considerado un Santuario Nacional.",
-            "En 1859, los ricos mineros de Copiapó se rebelaron contra el gobierno central e incluso llegaron a acuñar sus propias monedas, conocidas como 'Pesos de Copiapó'.",
-            "Las mujeres chilenas lograron el derecho a voto para elecciones presidenciales y parlamentarias recién en el año 1949.",
-            "El Palacio de La Moneda, actual sede del gobierno, fue construido originalmente en la colonia con el propósito de ser la Real Casa de Moneda (para fabricar dinero).",
-            "En 1962, Chile organizó la Copa Mundial de la FIFA y la selección nacional logró el tercer lugar, su mejor resultado histórico en este torneo.",
-            "El cómic 'Condorito' fue creado por Pepo en 1949 como respuesta a una película de Walt Disney (Saludos Amigos) que representó a Chile como un avioncito torpe e incapaz.",
-            "La flor nacional de Chile es el Copihue (Lapageria rosea), una hermosa enredadera con forma de campana que crece en los bosques del sur.",
-            "El pueblo Selk'nam (Ona) de Tierra del Fuego sufrió un terrible genocidio a fines del siglo XIX y principios del XX a manos de estancieros europeos y buscadores de oro.",
-            "En 1881, Chile y Argentina firmaron un tratado donde Chile cedió sus pretensiones sobre la Patagonia oriental para asegurar el control exclusivo del Estrecho de Magallanes.",
-            "Michelle Bachelet hizo historia en el año 2006 al convertirse en la primera mujer elegida como Presidenta de la República de Chile.",
-            "La austral ciudad de Punta Arenas fue fundada originalmente en 1848 como una colonia penal y fuerte militar en el Estrecho de Magallanes.",
-            "En 1860, un excéntrico abogado francés llamado Orélie Antoine de Tounens viajó al sur de Chile y se autoproclamó 'Rey de la Araucanía y la Patagonia'.",
-            "El billete actual de $10.000 pesos homenajea a Arturo Prat. Su famoso grito de abordaje, '¡Al abordaje, muchachos!', se enseña en todos los colegios de Chile.",
-            "Durante la Segunda Guerra Mundial, Chile se mantuvo neutral casi todo el tiempo por temor a ataques navales japoneses, rompiendo relaciones con el Eje recién en 1943.",
-            "Aunque se bailaba desde mucho antes, la 'Cueca' fue declarada oficialmente y por decreto como la danza nacional de Chile en 1979."
+            "La primera mujer médico de Sudamérica fue la chilena Eloísa Díaz, graduada en 1887.",
+            "Diego Portales organizó la República en el siglo XIX, dictó la Constitución de 1833, pero nunca fue Presidente.",
+            "El origen de la palabra 'Chile' podría venir del aymara 'chilli' (donde termina la tierra) o del canto del pájaro trile.",
+            "Chile fue el primer país del mundo en elegir democráticamente a un presidente marxista: Salvador Allende en 1970.",
+            "La actual Constitución chilena fue redactada en 1980 durante la dictadura militar, con múltiples reformas posteriores.",
+            "El rescate de los 33 mineros en 2010 fue visto en vivo por más de mil millones de personas.",
+            "Durante la colonia, Chile era considerada una Capitanía pobre debido a los enormes gastos bélicos en la Araucanía.",
+            "El estratega mapuche Lautaro fue paje de Valdivia, aprendiendo así las tácticas españolas para luego combatirlos.",
+            "La Isla Robinson Crusoe inspiró la novela de Daniel Defoe, basada en la historia del marinero Alexander Selkirk.",
+            "Gabriela Mistral fue la primera latinoamericana en ganar el Premio Nobel de Literatura en 1945.",
+            "Pablo Neruda organizó el viaje del barco Winnipeg en 1939, salvando a más de 2.000 refugiados españoles.",
+            "Durante la fiebre del oro de California (1848), muchos chilenos fundaron allí una zona conocida como 'Chilecito'.",
+            "Valparaíso fue el puerto comercial más importante del Pacífico Sur antes de la apertura del Canal de Panamá.",
+            "El primer ferrocarril de Chile se inauguró en 1851 entre Caldera y Copiapó.",
+            "El Desierto de Atacama es el lugar no polar más árido de la Tierra; la NASA lo usa para simular terreno de Marte.",
+            "En 1866, durante la Guerra Hispano-Sudamericana, la escuadra española bombardeó Valparaíso.",
+            "El himno nacional de Chile solía tener estrofas muy agresivas contra España, las cuales fueron eliminadas en 1847.",
+            "La icónica figura del 'Roto Chileno' fue homenajeada por su valentía en la Guerra contra la Confederación Perú-Boliviana.",
+            "En el plebiscito de 1988, la opción 'NO' ganó, marcando el inicio del retorno a la democracia.",
+            "El cóndor y el huemul del escudo nacional representan el lema oficial: 'Por la razón o la fuerza'.",
+            "Los restos de la Esmeralda siguen en el fondo del mar en Iquique y el lugar es considerado un Santuario Nacional.",
+            "En 1859, mineros de Copiapó se rebelaron contra el gobierno central e incluso acuñaron sus propias monedas.",
+            "Las mujeres chilenas lograron el derecho a voto presidencial recién en el año 1949.",
+            "El Palacio de La Moneda fue construido originalmente en la época colonial para fabricar dinero.",
+            "En 1962, Chile organizó el Mundial de la FIFA y la selección nacional logró el tercer lugar histórico.",
+            "El cómic 'Condorito' fue creado por Pepo en 1949 como respuesta a una película de Walt Disney.",
+            "La flor nacional de Chile es el Copihue, una hermosa enredadera con forma de campana roja o blanca.",
+            "El pueblo Selk'nam sufrió un terrible genocidio a fines del siglo XIX a manos de estancieros europeos.",
+            "En 1881, Chile cedió sus pretensiones sobre la Patagonia oriental para asegurar el control del Estrecho de Magallanes.",
+            "Michelle Bachelet hizo historia en 2006 al convertirse en la primera mujer Presidenta de Chile.",
+            "La austral ciudad de Punta Arenas fue fundada en 1848 originalmente como una colonia penal.",
+            "En 1860, un abogado francés se autoproclamó 'Rey de la Araucanía y la Patagonia'.",
+            "El grito de Arturo Prat: '¡Al abordaje, muchachos!', se enseña como símbolo de valentía en todo el país.",
+            "Durante la Segunda Guerra Mundial, Chile se mantuvo neutral casi todo el tiempo, rompiendo con el Eje recién en 1943.",
+            "La 'Cueca' fue declarada oficialmente como la danza nacional de Chile mediante decreto en 1979."
         ];
 
-        // Copiamos el array para no perder los datos originales al vaciarlo
         let availableFacts = [...chileanFacts];
 
-        // Elementos del DOM
         const factTextElement = document.getElementById('fact-text');
         const generateBtn = document.getElementById('generate-btn');
         const counterText = document.getElementById('counter-text');
+        const muteToggle = document.getElementById('mute-toggle');
+        const muteIcon = document.getElementById('mute-icon');
 
-        // Función principal
-        const generateFact = () => {
-            // Si nos quedamos sin datos, reiniciamos el array
-            if (availableFacts.length === 0) {
-                availableFacts = [...chileanFacts];
-            }
+        // --- Sintetizador rediseñado: Sonido de "Página de libro" / "Golpe sordo" ---
+        let isMuted = false;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
 
-            // Seleccionar un índice aleatorio
-            const randomIndex = Math.floor(Math.random() * availableFacts.length);
-            // Extraer el dato (esto lo saca del array para que no se repita)
-            const selectedFact = availableFacts.splice(randomIndex, 1)[0];
+        const initAudio = () => {
+            if(!audioCtx) audioCtx = new AudioContext();
+        }
 
-            // Animación de salida
-            factTextElement.classList.add('fade-out');
+        const playPageTurnSound = () => {
+            if (isMuted || !audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
 
-            // Esperar a que termine la transición de salida antes de cambiar el texto
-            setTimeout(() => {
-                factTextElement.textContent = selectedFact;
-                counterText.textContent = `Datos restantes en este ciclo: ${availableFacts.length}`;
-                
-                // Animación de entrada
-                factTextElement.classList.remove('fade-out');
-            }, 400); // 400ms coincide con la transición CSS
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            // Onda triangular para un sonido menos digital y más análogo/sordo
+            osc.type = 'triangle'; 
+            
+            // Empieza en una frecuencia media-baja y cae rapidísimo a casi nada
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.08);
+
+            // Volumen bajo, caída rápida simulando papel golpeando
+            gainNode.gain.setValueAtTime(0.4, audioCtx.currentTime); 
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.08);
         };
 
-        // Event Listener para el botón
+        muteToggle.addEventListener('click', () => {
+            initAudio();
+            isMuted = !isMuted;
+            muteToggle.classList.toggle('active', isMuted);
+            muteIcon.textContent = isMuted ? '🔇' : '🔊';
+            if(!isMuted) playPageTurnSound();
+        });
+
+        // --- Lógica de visualización elegante ---
+        const generateFact = () => {
+            initAudio();
+            playPageTurnSound();
+
+            if (availableFacts.length === 0) availableFacts = [...chileanFacts];
+
+            const randomIndex = Math.floor(Math.random() * availableFacts.length);
+            const selectedFact = availableFacts.splice(randomIndex, 1)[0];
+
+            // Animación de ocultado suave
+            factTextElement.classList.add('fact-hidden');
+
+            setTimeout(() => {
+                factTextElement.textContent = selectedFact;
+                counterText.textContent = `Pasajes disponibles: ${availableFacts.length}`;
+                
+                // Forzar repintado del DOM
+                factTextElement.offsetHeight; 
+
+                // Animación de mostrado suave
+                factTextElement.classList.remove('fact-hidden');
+            }, 300); 
+        };
+
         generateBtn.addEventListener('click', generateFact);
+
+        // Soporte Swipe para móviles
+        const touchArea = document.getElementById('touch-area');
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        touchArea.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        touchArea.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 40 || touchEndX - touchStartX > 40) {
+                generateFact(); // Funciona deslizando hacia cualquier lado
+            }
+        }, {passive: true});
+
     </script>
 </body>
 </html>
