@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Historia de Chile</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0033a0, #ce1126);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-color: #ffffff;
+            --btn-hover: #ffffff;
+            --btn-hover-text: #ce1126;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        /* Glassmorphism Card */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .fact-container {
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        #fact-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            font-weight: 300;
+            opacity: 1;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        /* Clase para animar la entrada/salida del texto */
+        .fade-out {
+            opacity: 0 !important;
+            transform: translateY(10px);
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        button:hover {
+            background: var(--btn-hover);
+            color: var(--btn-hover-text);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .counter {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Datos Curiosos de Chile 🇨🇱</h1>
+        <div class="fact-container">
+            <p id="fact-text">Haz clic en el botón para descubrir un fascinante dato sobre la historia chilena.</p>
+        </div>
+        <button id="generate-btn">Generar Dato</button>
+        <p class="counter" id="counter-text">Datos disponibles: 50</p>
+    </div>
+
+    <script>
+        // Array de 50 datos históricos
+        const chileanFacts = [
+            "La momia artificial más antigua del mundo no es egipcia, es la momia Chinchorro del norte de Chile (aprox. 5050 a.C.).",
+            "Chile tiene el récord del terremoto más fuerte jamás registrado en la historia: Valdivia en 1960, con una magnitud de 9.5.",
+            "Bernardo O'Higgins, el 'Padre de la Patria', era de ascendencia irlandesa (por su padre) y vasca (por su madre).",
+            "La verdadera Independencia de Chile se proclamó y juró el 12 de febrero de 1818, ¡no el 18 de septiembre! En septiembre se celebra la Primera Junta de Gobierno.",
+            "El pueblo Mapuche resistió la conquista española durante más de 300 años, forzando a la Corona Española a reconocer su autonomía en el Parlamento de Quilín (1641).",
+            "La bandera chilena es 21 años más antigua que la bandera del estado de Texas (EE.UU.), a pesar de su innegable parecido.",
+            "Chile reclama soberanía sobre una porción de la Antártica (Territorio Chileno Antártico) oficialmente desde 1940.",
+            "Durante la Guerra del Pacífico, Chile capturó el monitor peruano Huáscar. Hoy es un museo flotante en Talcahuano y el buque de guerra a flote más antiguo del mundo en su tipo.",
+            "La Batalla naval de Iquique (21 de mayo de 1879) fue una derrota militar, pero Arturo Prat se convirtió en el máximo héroe nacional por su acto de sacrificio.",
+            "En 1520, la expedición de Hernando de Magallanes descubrió el Estrecho que hoy lleva su nombre, siendo los primeros europeos en avistar territorio chileno.",
+            "Pedro de Valdivia fundó Santiago el 12 de febrero de 1541 a los pies del Cerro Huelén, hoy conocido como Cerro Santa Lucía.",
+            "Inés de Suárez tuvo un papel crucial (y muy crudo) en la defensa de Santiago en 1541 cuando la ciudad fue atacada y quemada por el cacique Michimalonco.",
+            "La Isla de Pascua (Rapa Nui) fue incorporada al territorio chileno recién en 1888, gracias a las gestiones del comandante Policarpo Toro.",
+            "El famoso 'Abrazo de Maipú' entre el argentino José de San Martín y el chileno Bernardo O'Higgins selló definitivamente la independencia de Chile en 1818.",
+            "El temido corsario inglés Francis Drake atacó y saqueó el puerto de Valparaíso en el año 1578.",
+            "La primera mujer médico de Chile (y de toda Sudamérica) fue Eloísa Díaz, quien obtuvo su título en 1887.",
+            "Diego Portales organizó la República en el siglo XIX y dictó la Constitución de 1833, pero curiosamente, nunca fue Presidente de Chile.",
+            "El origen de la palabra 'Chile' es incierto; podría venir del aymara 'chilli' (donde termina la tierra) o del canto del pájaro trile ('chi-le, chi-le').",
+            "Chile fue el primer país del mundo en elegir democráticamente a un presidente de ideología marxista: Salvador Allende en 1970.",
+            "La actual Constitución chilena fue redactada y aprobada en 1980 durante la dictadura de Augusto Pinochet, aunque ha sufrido decenas de reformas desde entonces.",
+            "El rescate de los 33 mineros atrapados en la mina San José en 2010 fue transmitido y visto en vivo por más de mil millones de personas en todo el mundo.",
+            "Durante la época colonial, Chile era considerado por la Corona Española como la 'Capitanía General más pobre y problemática' debido a los constantes gastos de la Guerra de Arauco.",
+            "El estratega militar mapuche Lautaro fue paje de Pedro de Valdivia. Esto le permitió aprender las tácticas y debilidades españolas antes de liderar la rebelión.",
+            "La Isla Robinson Crusoe (Archipiélago Juan Fernández) inspiró la famosa novela de Daniel Defoe. El marinero real abandonado allí se llamaba Alexander Selkirk.",
+            "Gabriela Mistral, una profesora rural del Valle de Elqui, fue la primera persona de toda América Latina en ganar el Premio Nobel de Literatura en 1945.",
+            "Pablo Neruda (Premio Nobel 1971) organizó el viaje del barco Winnipeg en 1939, salvando a más de 2.000 refugiados españoles de la Guerra Civil para que vivieran en Chile.",
+            "Durante la fiebre del oro de California (1848), tantos chilenos viajaron y se asentaron allí que fundaron una zona aún conocida como 'Chilecito'.",
+            "Valparaíso fue el puerto comercial más importante del Pacífico Sur en el siglo XIX, estatus que perdió con la apertura del Canal de Panamá en 1914.",
+            "El primer ferrocarril de Chile (y el tercero de Sudamérica) se inauguró en 1851, uniendo las ciudades nortinas de Caldera y Copiapó.",
+            "El Desierto de Atacama en el norte de Chile es el lugar no polar más árido de la Tierra. Es tan extremo que la NASA lo usa para simular el terreno de Marte.",
+            "En 1866, durante la Guerra Hispano-Sudamericana, la escuadra española bombardeó y destruyó gran parte del puerto de Valparaíso.",
+            "El himno nacional de Chile solía tener estrofas muy agresivas contra España. Fueron eliminadas en 1847 para poder restablecer relaciones diplomáticas.",
+            "La icónica figura del 'Roto Chileno' fue homenajeada con un monumento por su valentía en la Guerra contra la Confederación Perú-Boliviana (1836-1839).",
+            "En el plebiscito nacional de 1988, la opción 'NO' ganó con un 54.68%, marcando el inicio del retorno a la democracia en Chile tras 15 años de régimen militar.",
+            "El cóndor andino y el huemul sostienen el escudo nacional. Representan el lema oficial del país: 'Por la razón o la fuerza'.",
+            "Los restos de la corbeta Esmeralda, hundida en el Combate Naval de Iquique, siguen en el fondo del mar y el lugar es considerado un Santuario Nacional.",
+            "En 1859, los ricos mineros de Copiapó se rebelaron contra el gobierno central e incluso llegaron a acuñar sus propias monedas, conocidas como 'Pesos de Copiapó'.",
+            "Las mujeres chilenas lograron el derecho a voto para elecciones presidenciales y parlamentarias recién en el año 1949.",
+            "El Palacio de La Moneda, actual sede del gobierno, fue construido originalmente en la colonia con el propósito de ser la Real Casa de Moneda (para fabricar dinero).",
+            "En 1962, Chile organizó la Copa Mundial de la FIFA y la selección nacional logró el tercer lugar, su mejor resultado histórico en este torneo.",
+            "El cómic 'Condorito' fue creado por Pepo en 1949 como respuesta a una película de Walt Disney (Saludos Amigos) que representó a Chile como un avioncito torpe e incapaz.",
+            "La flor nacional de Chile es el Copihue (Lapageria rosea), una hermosa enredadera con forma de campana que crece en los bosques del sur.",
+            "El pueblo Selk'nam (Ona) de Tierra del Fuego sufrió un terrible genocidio a fines del siglo XIX y principios del XX a manos de estancieros europeos y buscadores de oro.",
+            "En 1881, Chile y Argentina firmaron un tratado donde Chile cedió sus pretensiones sobre la Patagonia oriental para asegurar el control exclusivo del Estrecho de Magallanes.",
+            "Michelle Bachelet hizo historia en el año 2006 al convertirse en la primera mujer elegida como Presidenta de la República de Chile.",
+            "La austral ciudad de Punta Arenas fue fundada originalmente en 1848 como una colonia penal y fuerte militar en el Estrecho de Magallanes.",
+            "En 1860, un excéntrico abogado francés llamado Orélie Antoine de Tounens viajó al sur de Chile y se autoproclamó 'Rey de la Araucanía y la Patagonia'.",
+            "El billete actual de $10.000 pesos homenajea a Arturo Prat. Su famoso grito de abordaje, '¡Al abordaje, muchachos!', se enseña en todos los colegios de Chile.",
+            "Durante la Segunda Guerra Mundial, Chile se mantuvo neutral casi todo el tiempo por temor a ataques navales japoneses, rompiendo relaciones con el Eje recién en 1943.",
+            "Aunque se bailaba desde mucho antes, la 'Cueca' fue declarada oficialmente y por decreto como la danza nacional de Chile en 1979."
+        ];
+
+        // Copiamos el array para no perder los datos originales al vaciarlo
+        let availableFacts = [...chileanFacts];
+
+        // Elementos del DOM
+        const factTextElement = document.getElementById('fact-text');
+        const generateBtn = document.getElementById('generate-btn');
+        const counterText = document.getElementById('counter-text');
+
+        // Función principal
+        const generateFact = () => {
+            // Si nos quedamos sin datos, reiniciamos el array
+            if (availableFacts.length === 0) {
+                availableFacts = [...chileanFacts];
+            }
+
+            // Seleccionar un índice aleatorio
+            const randomIndex = Math.floor(Math.random() * availableFacts.length);
+            // Extraer el dato (esto lo saca del array para que no se repita)
+            const selectedFact = availableFacts.splice(randomIndex, 1)[0];
+
+            // Animación de salida
+            factTextElement.classList.add('fade-out');
+
+            // Esperar a que termine la transición de salida antes de cambiar el texto
+            setTimeout(() => {
+                factTextElement.textContent = selectedFact;
+                counterText.textContent = `Datos restantes en este ciclo: ${availableFacts.length}`;
+                
+                // Animación de entrada
+                factTextElement.classList.remove('fade-out');
+            }, 400); // 400ms coincide con la transición CSS
+        };
+
+        // Event Listener para el botón
+        generateBtn.addEventListener('click', generateFact);
+    </script>
+</body>
+</html>
