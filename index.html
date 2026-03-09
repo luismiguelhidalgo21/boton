@@ -3,25 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Archivo Histórico de Chile</title>
+    <title>Curiosidades Chilenas ✨</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Paleta Boutique y Cálida */
-            --bg-color: #F7F5F0; /* Tono papel antiguo suave */
+            /* Paleta Rosada y Comfy */
+            --bg-color: #FEF9F8; /* Crema rosado muy tenue */
             --card-bg: #FFFFFF;
-            --text-main: #2B2B2B; /* Tinta carbón */
-            --text-secondary: #7A7A7A;
-            --accent-red: #A82030; /* Rojo carmín / vino */
-            --accent-red-hover: #8A1A27;
-            --border-soft: #EAE6DF;
+            --text-main: #5D4037; /* Marrón suave, menos agresivo que el negro */
+            --text-secondary: #A1887F;
             
-            --font-ui: 'Montserrat', sans-serif;
-            --font-story: 'Lora', serif;
+            --pink-primary: #FFD1DC; /* Rosa pastel suave */
+            --pink-hover: #FFC0CB;   /* Rosa un poco más intenso al tacto */
+            --pink-accent: #E57373;  /* Coral suave para detalles */
+            
+            --border-comfort: #F4EAE6;
+            
+            --font-comfy: 'Quicksand', sans-serif;
+            
+            /* Curvas muy pronunciadas para suavidad */
+            --radius-card: 30px;
+            --radius-btn: 50px;
         }
 
         * {
@@ -34,68 +40,58 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: var(--font-ui);
+            font-family: var(--font-comfy);
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            /* Textura sutil de ruido de fondo para simular papel */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            /* Degradado radial suave de fondo */
+            background-image: radial-gradient(circle at center, #FFFFFF 0%, #FEF9F8 100%);
         }
 
-        /* Tarjeta estilo "Página de Libro / Placa de Museo" */
-        .museum-card {
+        /* Tarjeta estilo "Almohada" o Nube */
+        .comfy-card {
             background: var(--card-bg);
             width: 100%;
-            max-width: 500px;
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04), 0 5px 15px rgba(0, 0, 0, 0.02);
+            max-width: 480px;
+            border-radius: var(--radius-card);
+            /* Sombras extremadamente suaves y difusas */
+            box-shadow: 0 20px 40px rgba(255, 209, 220, 0.2), 0 10px 15px rgba(0, 0, 0, 0.01);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            border: 1px solid var(--border-soft);
+            border: 2px solid var(--border-comfort);
+            transition: transform 0.3s ease;
         }
 
         header {
-            padding: 35px 30px 10px;
+            padding: 40px 30px 15px;
             text-align: center;
         }
 
         .subtitle {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 8px;
+            letter-spacing: 2px;
+            color: var(--pink-accent);
+            font-weight: 700;
+            margin-bottom: 10px;
             display: block;
         }
 
         h1 {
-            font-family: var(--font-story);
-            font-weight: 500;
-            font-size: 1.8rem;
+            font-weight: 700;
+            font-size: 1.7rem;
             color: var(--text-main);
-            position: relative;
-            display: inline-block;
+            letter-spacing: -0.5px;
         }
 
-        /* Adorno clásico debajo del título */
-        h1::after {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 2px;
-            background-color: var(--accent-red);
-            margin: 15px auto 0;
-        }
-
-        /* Contenedor del Dato Histórico */
+        /* Contenedor del Dato */
         .fact-stage {
-            padding: 40px 35px;
-            min-height: 220px;
+            padding: 30px 35px 50px;
+            min-height: 200px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -103,56 +99,79 @@
             touch-action: pan-y;
         }
 
-        /* Tipografía grande y legible para la historia */
+        /* Tipografía de dato suavizada */
         #fact-text {
-            font-family: var(--font-story);
-            font-size: 1.35rem;
-            line-height: 1.6;
+            font-weight: 500;
+            font-size: 1.25rem;
+            line-height: 1.5;
             text-align: center;
             color: var(--text-main);
-            transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            /* Animación más lenta y fluida */
+            transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* Clases para transición elegante (Fade & Drift) */
+        /* Efecto de desvanecimiento suave */
         .fact-hidden {
             opacity: 0;
-            transform: translateY(8px);
+            transform: scale(0.96);
         }
 
         footer {
-            padding: 0 35px 35px;
+            padding: 0 35px 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
-        /* Botón estilo "Call to Action" de alta calidad */
+        /* Botón Rosado y Súper Redondeado */
         #generate-btn {
-            background-color: var(--accent-red);
-            color: #FFF;
+            background-color: var(--pink-primary);
+            color: #795548; /* Marrón contrastante suave */
             border: none;
             width: 100%;
-            padding: 16px;
-            border-radius: 6px;
-            font-family: var(--font-ui);
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            padding: 18px;
+            border-radius: var(--radius-btn);
+            font-family: var(--font-comfy);
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 14px rgba(168, 32, 48, 0.25);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 20px rgba(255, 209, 220, 0.4);
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Brillo sutil al pasar el mouse (en desktop) */
         #generate-btn:hover {
-            background-color: var(--accent-red-hover);
+            background-color: var(--pink-hover);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(168, 32, 48, 0.35);
+            box-shadow: 0 10px 25px rgba(255, 209, 220, 0.5);
         }
 
+        /* Efecto de compresión suave al tocar */
         #generate-btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 8px rgba(168, 32, 48, 0.2);
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 4px 10px rgba(255, 209, 220, 0.3);
+        }
+        
+        /* Pequeño destello de luz interno al pulsar */
+        #generate-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100px; height: 100px;
+            background: rgba(255,255,255,0.5);
+            opacity: 0;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        
+        #generate-btn:active::after {
+            transform: translate(-50%, -50%) scale(4);
+            opacity: 1;
+            transition: 0s;
         }
 
         .meta-controls {
@@ -160,71 +179,73 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            border-top: 1px solid var(--border-soft);
-            padding-top: 15px;
+            border-top: 2px solid var(--border-comfort);
+            padding-top: 20px;
         }
 
         #counter-text {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            font-weight: 600;
+            font-weight: 500;
         }
 
         #mute-toggle {
             background: none;
             border: none;
             color: var(--text-secondary);
-            font-size: 0.8rem;
-            font-family: var(--font-ui);
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-family: var(--font-comfy);
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
             transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 20px;
         }
 
-        #mute-toggle:hover { color: var(--text-main); }
-        #mute-toggle.active { text-decoration: line-through; opacity: 0.6; }
+        #mute-toggle:hover { color: var(--pink-accent); background-color: rgba(255,209,220,0.1); }
+        #mute-toggle.active { opacity: 0.5; }
 
     </style>
 </head>
 <body>
 
-    <div class="museum-card">
+    <div class="comfy-card">
         <header>
-            <span class="subtitle">Colección Curada</span>
-            <h1>Historia de Chile</h1>
+            <span class="subtitle">Descubre algo nuevo ✨</span>
+            <h1>Curiosidades Chilenas</h1>
         </header>
         
         <div class="fact-stage" id="touch-area">
-            <p id="fact-text">Toca el botón inferior o desliza la pantalla para revelar un pasaje de nuestra historia.</p>
+            <p id="fact-text">Toca el botón rosa o desliza aquí suavemente para empezar.</p>
         </div>
         
         <footer>
-            <button id="generate-btn">Descubrir Siguiente Pasaje</button>
+            <button id="generate-btn">Siguiente Curiosidad 💖</button>
             <div class="meta-controls">
-                <span id="counter-text">Pasajes disponibles: 50</span>
+                <span id="counter-text">Quedan: 50 por ver</span>
                 <button id="mute-toggle">
-                    <span id="mute-icon">🔊</span> Audio
+                    <span id="mute-icon">🔊</span> Sonido
                 </button>
             </div>
         </footer>
     </div>
 
     <script>
-        // Los 50 datos históricos (sin modificaciones)
+        // --- BASE DE DATOS (Mismos 50 datos históricos) ---
         const chileanFacts = [
             "La momia artificial más antigua del mundo no es egipcia, es la momia Chinchorro del norte de Chile (aprox. 5050 a.C.).",
             "Chile tiene el récord del terremoto más fuerte jamás registrado en la historia: Valdivia en 1960, con una magnitud de 9.5.",
             "Bernardo O'Higgins, el 'Padre de la Patria', era de ascendencia irlandesa y vasca.",
             "La verdadera Independencia de Chile se proclamó y juró el 12 de febrero de 1818, ¡no el 18 de septiembre!",
-            "El pueblo Mapuche resistió la conquista española durante más de 300 años, forzando la firma del Parlamento de Quilín.",
+            "El pueblo Mapuche resistió la conquista española durante más de 300 años.",
             "La bandera chilena es 21 años más antigua que la bandera del estado de Texas, a pesar de su gran parecido.",
             "Chile reclama soberanía sobre una porción de la Antártica oficialmente desde 1940.",
             "El monitor peruano Huáscar, capturado en la Guerra del Pacífico, es el buque de guerra flotante más antiguo de su tipo.",
             "La Batalla naval de Iquique (1879) fue una derrota militar, pero Arturo Prat se convirtió en el máximo héroe nacional.",
-            "En 1520, la expedición de Magallanes descubrió el Estrecho que hoy lleva su nombre, avistando territorio chileno.",
+            "En 1520, la expedición de Magallanes descubrió el Estrecho que hoy lleva su nombre, avistando Chile.",
             "Pedro de Valdivia fundó Santiago el 12 de febrero de 1541 a los pies del Cerro Huelén (Santa Lucía).",
             "Inés de Suárez tuvo un papel crucial en la defensa de Santiago en 1541 contra el cacique Michimalonco.",
             "La Isla de Pascua (Rapa Nui) fue incorporada al territorio chileno recién en 1888.",
@@ -244,20 +265,20 @@
             "Durante la fiebre del oro de California (1848), muchos chilenos fundaron allí una zona conocida como 'Chilecito'.",
             "Valparaíso fue el puerto comercial más importante del Pacífico Sur antes de la apertura del Canal de Panamá.",
             "El primer ferrocarril de Chile se inauguró en 1851 entre Caldera y Copiapó.",
-            "El Desierto de Atacama es el lugar no polar más árido de la Tierra; la NASA lo usa para simular terreno de Marte.",
+            "El Desierto de Atacama es el lugar no polar más árido de la Tierra.",
             "En 1866, durante la Guerra Hispano-Sudamericana, la escuadra española bombardeó Valparaíso.",
-            "El himno nacional de Chile solía tener estrofas muy agresivas contra España, las cuales fueron eliminadas en 1847.",
+            "El himno nacional de Chile solía tener estrofas muy agresivas contra España, eliminadas en 1847.",
             "La icónica figura del 'Roto Chileno' fue homenajeada por su valentía en la Guerra contra la Confederación Perú-Boliviana.",
             "En el plebiscito de 1988, la opción 'NO' ganó, marcando el inicio del retorno a la democracia.",
             "El cóndor y el huemul del escudo nacional representan el lema oficial: 'Por la razón o la fuerza'.",
-            "Los restos de la Esmeralda siguen en el fondo del mar en Iquique y el lugar es considerado un Santuario Nacional.",
+            "Los restos de la Esmeralda siguen en el fondo del mar en Iquique y el lugar es un Santuario Nacional.",
             "En 1859, mineros de Copiapó se rebelaron contra el gobierno central e incluso acuñaron sus propias monedas.",
             "Las mujeres chilenas lograron el derecho a voto presidencial recién en el año 1949.",
             "El Palacio de La Moneda fue construido originalmente en la época colonial para fabricar dinero.",
             "En 1962, Chile organizó el Mundial de la FIFA y la selección nacional logró el tercer lugar histórico.",
             "El cómic 'Condorito' fue creado por Pepo en 1949 como respuesta a una película de Walt Disney.",
-            "La flor nacional de Chile es el Copihue, una hermosa enredadera con forma de campana roja o blanca.",
-            "El pueblo Selk'nam sufrió un terrible genocidio a fines del siglo XIX a manos de estancieros europeos.",
+            "La flor nacional de Chile es el Copihue, una hermosa enredadera con forma de campana.",
+            "El pueblo Selk'nam sufrió un terrible genocidio a fines del siglo XIX a manos de estancieros.",
             "En 1881, Chile cedió sus pretensiones sobre la Patagonia oriental para asegurar el control del Estrecho de Magallanes.",
             "Michelle Bachelet hizo historia en 2006 al convertirse en la primera mujer Presidenta de Chile.",
             "La austral ciudad de Punta Arenas fue fundada en 1848 originalmente como una colonia penal.",
@@ -267,6 +288,7 @@
             "La 'Cueca' fue declarada oficialmente como la danza nacional de Chile mediante decreto en 1979."
         ];
 
+        // --- LÓGICA (Cero repeticiones) ---
         let availableFacts = [...chileanFacts];
 
         const factTextElement = document.getElementById('fact-text');
@@ -275,7 +297,7 @@
         const muteToggle = document.getElementById('mute-toggle');
         const muteIcon = document.getElementById('mute-icon');
 
-        // --- Sintetizador rediseñado: Sonido de "Página de libro" / "Golpe sordo" ---
+        // --- Sintetizador Comfy: Sonido grave y sutil ("Thump") ---
         let isMuted = false;
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx = null;
@@ -284,29 +306,29 @@
             if(!audioCtx) audioCtx = new AudioContext();
         }
 
-        const playPageTurnSound = () => {
+        const playComfySound = () => {
             if (isMuted || !audioCtx) return;
             if (audioCtx.state === 'suspended') audioCtx.resume();
 
             const osc = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
 
-            // Onda triangular para un sonido menos digital y más análogo/sordo
-            osc.type = 'triangle'; 
+            // Onda sinusoidal para el sonido más puro y suave posible
+            osc.type = 'sine'; 
             
-            // Empieza en una frecuencia media-baja y cae rapidísimo a casi nada
-            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.08);
+            // Frecuencias muy bajas para un sonido "acolchado"
+            osc.frequency.setValueAtTime(110, audioCtx.currentTime); // Nota La baja
+            osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.12);
 
-            // Volumen bajo, caída rápida simulando papel golpeando
-            gainNode.gain.setValueAtTime(0.4, audioCtx.currentTime); 
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+            // Volumen bajo, decaimiento suave
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime); 
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
 
             osc.connect(gainNode);
             gainNode.connect(audioCtx.destination);
 
             osc.start();
-            osc.stop(audioCtx.currentTime + 0.08);
+            osc.stop(audioCtx.currentTime + 0.12);
         };
 
         muteToggle.addEventListener('click', () => {
@@ -314,32 +336,31 @@
             isMuted = !isMuted;
             muteToggle.classList.toggle('active', isMuted);
             muteIcon.textContent = isMuted ? '🔇' : '🔊';
-            if(!isMuted) playPageTurnSound();
+            if(!isMuted) playComfySound();
         });
 
-        // --- Lógica de visualización elegante ---
+        // --- Función de visualización fluida ---
         const generateFact = () => {
             initAudio();
-            playPageTurnSound();
+            playComfySound();
 
             if (availableFacts.length === 0) availableFacts = [...chileanFacts];
 
             const randomIndex = Math.floor(Math.random() * availableFacts.length);
             const selectedFact = availableFacts.splice(randomIndex, 1)[0];
 
-            // Animación de ocultado suave
+            // Animación de salida suave
             factTextElement.classList.add('fact-hidden');
 
             setTimeout(() => {
                 factTextElement.textContent = selectedFact;
-                counterText.textContent = `Pasajes disponibles: ${availableFacts.length}`;
+                counterText.textContent = `Quedan: ${availableFacts.length} por ver`;
                 
-                // Forzar repintado del DOM
-                factTextElement.offsetHeight; 
+                factTextElement.offsetHeight; // Forzar repintado
 
-                // Animación de mostrado suave
+                // Animación de entrada suave
                 factTextElement.classList.remove('fact-hidden');
-            }, 300); 
+            }, 400); // Un poco más lento para ser más comfy
         };
 
         generateBtn.addEventListener('click', generateFact);
@@ -355,8 +376,8 @@
 
         touchArea.addEventListener('touchend', e => {
             touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 40 || touchEndX - touchStartX > 40) {
-                generateFact(); // Funciona deslizando hacia cualquier lado
+            if (Math.abs(touchStartX - touchEndX) > 50) {
+                generateFact(); // Funciona deslizando suavemente
             }
         }, {passive: true});
 
